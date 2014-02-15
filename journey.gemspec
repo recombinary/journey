@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'journey/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "journey"
+  spec.name          = "embark-journey"
   spec.version       = Journey::VERSION::STRING
   spec.authors       = ["Dan Davey"]
   spec.email         = ["dan@recombinary.com"]
