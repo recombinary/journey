@@ -1,5 +1,8 @@
-require "journey/version"
+require 'active_resource/active_resource'
+require 'journey/version'
+require 'journey/configuration'
+require 'journey/configurable'
+require 'journey/resource'
 
 module Journey
-  # Your code goes here...
 end
