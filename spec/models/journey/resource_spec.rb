@@ -54,12 +54,14 @@ describe Journey::Resource do
       it 'returns matching objects, sorted by attribute' do
         klass.all.each(&:destroy)
 
+        klass.create(name: 'X', status: 'Active')
         klass.create(name: 'Z', status: 'Active')
         klass.create(name: 'M', status: 'Inactive')
         klass.create(name: 'A', status: 'Active')
+        klass.create(name: 'B', status: 'Active')
 
-        collection = klass.where(status: 'Active', sort: { name: :asc })
-        expect(collection.map(&:name)).to eq %w[A Z]
+        collection = klass.where(q: { status: 'Active' }, sort: { name: :asc }, skip: 1, limit: 2)
+        expect(collection.map(&:name)).to eq %w[B X]
       end 
     end
   end
