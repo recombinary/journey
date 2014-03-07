@@ -8,12 +8,14 @@ require 'journey/resource/api'
 require 'journey/resource/attribute_loading'
 require 'journey/resource/enums'
 require 'journey/resource/queries'
+require 'journey/resource/search'
 
 class Journey::Resource
   include API
   include Queries
   include Enums
   include AttributeLoading
+  include Search
 end
 
 

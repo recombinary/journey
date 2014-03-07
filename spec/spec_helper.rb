@@ -1,8 +1,11 @@
 require 'pry'
 require 'journey'
 
+
 require 'dotenv'
 Dotenv.load
+
+require 'factory_girl'
 
 Dir["spec/support/**/*.rb"].each { |f| require "./#{f}" }
 

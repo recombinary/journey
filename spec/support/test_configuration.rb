@@ -5,6 +5,5 @@ module TestConfiguration
       c.api_user = ENV['JOURNEY_API_USERNAME']
       c.api_password = ENV['JOURNEY_API_KEY']
     end
-    binding.pry
   end
 end

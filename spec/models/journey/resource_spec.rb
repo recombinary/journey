@@ -63,4 +63,38 @@ describe Journey::Resource do
       end 
     end
   end
+
+
+  describe '::Search' do
+    it 'returns matching objects when matches are made' do
+      uuid = SecureRandom.uuid
+
+      matched_objects = [
+        klass.create(name: "#{SecureRandom.uuid}#{uuid}"),
+        klass.create(name: "#{SecureRandom.uuid}#{uuid}")
+      ]
+      expect(matched_objects.all?(&:persisted?)).to be true
+
+      unmatched_objects = [
+        klass.create(name: "#{SecureRandom.uuid}"),
+        klass.create(name: "#{SecureRandom.uuid}")
+      ]
+      expect(unmatched_objects.all?(&:persisted?)).to be true
+
+      searched_objects = klass.search(uuid)
+
+      matched_objects.each do |object|
+        expect(searched_objects).to include(object)
+      end
+
+      unmatched_objects.each do |object|
+        expect(searched_objects).not_to include(object)
+      end
+    end
+
+    it 'returns an empty array when no matches are made' do
+      results = klass.search(SecureRandom.uuid)
+      expect(results).to_not be_any
+    end
+  end
 end
