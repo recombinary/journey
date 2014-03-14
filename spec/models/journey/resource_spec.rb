@@ -99,4 +99,32 @@ describe Journey::Resource do
       expect(results).to_not be_any
     end
   end
+
+  describe '::Embed' do
+    class Client < Journey::Resource
+    end
+
+    class Technician < Journey::Resource
+    end
+
+    class Asset < Journey::Resource
+      belongs_to :client, embed: true
+      belongs_to :technician, embed: true
+    end
+
+    it 'loads an embedded belongs_to association automatically' do
+      client = Client.create name: 'branch'
+      technician = Technician.create name: 'technician'
+
+      asset = Asset.create name: 'asset', client_id: client.id, technician_id: technician.id
+      id = asset.id
+      asset = Asset.find(id)
+
+      expect(asset.attributes['client']).to eq client
+      expect(asset.client).to eq client
+
+      expect(asset.attributes['technician']).to eq technician
+      expect(asset.technician).to eq technician
+    end
+  end
 end

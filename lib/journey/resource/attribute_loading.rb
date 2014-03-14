@@ -8,7 +8,7 @@ module Journey::Resource::AttributeLoading
     # for the purpose of enums
     def load(attributes, remove_root = false, persisted = false)
       super(attributes, remove_root, persisted).tap do
-        attributes.each do |key, value|
+        self.attributes.each do |key, value|
           send("#{key}=", value) if respond_to?("#{key}=")
         end
       end

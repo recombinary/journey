@@ -4,9 +4,9 @@ module ActiveResource::Associations
     autoload :Association, 'active_resource/associations/builder/association'
     autoload :HasMany,     'active_resource/associations/builder/has_many'
     autoload :HasOne,      'active_resource/associations/builder/has_one'
-    autoload :BelongsTo,   'active_resource/associations/builder/belongs_to'
+    # autoload :BelongsTo,   'active_resource/associations/builder/belongs_to'
+    require_relative 'associations/builder/belongs_to'
   end
-
 
 
   # Specifies a one-to-many association.
@@ -140,6 +140,12 @@ module ActiveResource::Associations
       instance_variable_set(ivar_name, obj)
       attributes["#{method_name}_id"] = obj.try(:id)
     end
+  end
+
+  attr_accessor :embeds
+  def defines_belongs_to_embed(method_name, association_model)
+    self.embeds ||= []
+    self.embeds << method_name
   end
 
   def defines_has_many_finder_method(method_name, association_model)

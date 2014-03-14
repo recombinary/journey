@@ -1,2 +1,2 @@
 require 'active_resource'
-require 'active_resource/associations'
+require_relative 'associations'
