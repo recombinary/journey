@@ -40,6 +40,23 @@ Create your resource models, inheriting from `Journey::Resource`. Under the hood
     end
 
 
+### Searching
+
+To perform a text search on a model's attributes:
+
+    User.search('itni')
+    
+
+
+### Embedding associations
+
+Often you'll want to load associated resources without needing to make additional queries. This can be specified on the `belongs_to` declaration:
+
+    class User < Journey::Resource
+      belongs_to :account, embed: true
+    end
+
+
 ## Contributing
 
 1. Fork it
