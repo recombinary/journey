@@ -143,7 +143,7 @@ module ActiveResource::Associations
   end
 
   attr_accessor :embeds
-  def defines_belongs_to_embed(method_name, association_model)
+  def defines_belongs_to_embed(method_name, association_model, foreign_key)
     self.embeds ||= []
     self.embeds << method_name
   end

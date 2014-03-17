@@ -11,7 +11,7 @@ module ActiveResource::Associations::Builder
       reflection = model.create_reflection(self.class.macro, name, options)
       model.defines_belongs_to_finder_method(reflection.name, reflection.klass, reflection.foreign_key)
 
-      model.defines_belongs_to_embed(reflection.name, reflection.klass) if embed
+      model.defines_belongs_to_embed(reflection.name, reflection.klass, reflection.foreign_key) if embed
 
       return reflection
     end

@@ -101,30 +101,30 @@ describe Journey::Resource do
   end
 
   describe '::Embed' do
-    class Client < Journey::Resource
-    end
-
-    class Technician < Journey::Resource
-    end
-
     class Asset < Journey::Resource
-      belongs_to :client, embed: true
-      belongs_to :technician, embed: true
+    end
+
+    class Fault < Journey::Resource
+    end
+
+    class Job < Journey::Resource
+      belongs_to :asset, embed: true
+      belongs_to :reported_fault, class_name: 'Fault', embed: true
     end
 
     it 'loads an embedded belongs_to association automatically' do
-      client = Client.create name: 'branch'
-      technician = Technician.create name: 'technician'
+      asset = Asset.create name: 'asset'
+      fault = Fault.create name: 'fault'
 
-      asset = Asset.create name: 'asset', client_id: client.id, technician_id: technician.id
-      id = asset.id
-      asset = Asset.find(id)
+      job = Job.create name: 'job', asset_id: asset.id, reported_fault_id: fault.id
+      id = job.id
+      job = Job.find(id)
 
-      expect(asset.attributes['client']).to eq client
-      expect(asset.client).to eq client
+      expect(job.attributes['asset']).to eq asset
+      expect(job.asset).to eq asset
 
-      expect(asset.attributes['technician']).to eq technician
-      expect(asset.technician).to eq technician
+      expect(job.attributes['reported_fault']).to eq fault
+      expect(job.reported_fault).to eq fault
     end
   end
 end
