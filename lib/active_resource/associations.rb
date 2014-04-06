@@ -132,7 +132,7 @@ module ActiveResource::Associations
         attributes[method_name]
       elsif association_id = send(finder_key)
         return nil if association_id.blank?
-        instance_variable_set(ivar_name, association_model.find(association_id))
+        instance_variable_set(ivar_name, (association_model.find(association_id) rescue nil))
       end
     end
 
@@ -145,7 +145,7 @@ module ActiveResource::Associations
   attr_accessor :embeds
   def defines_belongs_to_embed(method_name, association_model, foreign_key)
     self.embeds ||= []
-    self.embeds << association_model.to_s.underscore
+    self.embeds << method_name.to_s
   end
 
   def defines_has_many_finder_method(method_name, association_model)
