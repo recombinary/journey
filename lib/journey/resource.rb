@@ -20,6 +20,7 @@ require 'journey/resource/enums'
 require 'journey/resource/queries'
 require 'journey/resource/search'
 require 'journey/resource/embed'
+require 'journey/resource/count'
 
 class Journey::Resource
   include API
@@ -28,6 +29,7 @@ class Journey::Resource
   include AttributeLoading
   include Search
   include Embed
+  include Count
 end
 
 

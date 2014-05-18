@@ -127,4 +127,25 @@ describe Journey::Resource do
       expect(job.reported_fault).to eq fault
     end
   end
+
+
+  describe '::Count' do
+    it 'returns a count of objects when some are matched' do
+      uuid = SecureRandom.uuid
+
+      matched_objects = [
+        klass.create(name: uuid),
+        klass.create(name: uuid)
+      ]
+      expect(matched_objects.all?(&:persisted?)).to be true
+
+      count = klass.count(query: { name: uuid })
+      expect(count).to eq(matched_objects.count)
+    end
+
+    it 'returns 0 for no matching objects' do
+      count = klass.count(query: { name: SecureRandom.uuid })
+      expect(count).to eq(0)
+    end
+  end
 end

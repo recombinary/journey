@@ -57,6 +57,13 @@ Often you'll want to load associated resources without needing to make additiona
     end
 
 
+### Counting objects
+
+Receive an object count for a given query:
+
+    User.count(query: { 'friends_count.lt' => 4 })
+
+
 ## Contributing
 
 1. Fork it
