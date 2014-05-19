@@ -126,6 +126,23 @@ describe Journey::Resource do
       expect(job.attributes['reported_fault']).to eq fault
       expect(job.reported_fault).to eq fault
     end
+
+    it 'skips embedded belongs_to associations when opted for' do
+      asset = Asset.create name: 'asset'
+      fault = Fault.create name: 'fault'
+
+      job = Job.create name: 'job', asset_id: asset.id, reported_fault_id: fault.id
+      id = job.id
+      job = Job.find(id, embed: false)
+
+      expect(job.attributes['asset']).to be_nil
+      expect(job.asset).to eq asset
+
+      expect(job.attributes['reported_fault']).to be_nil
+      expect(job.reported_fault).to eq fault
+    end
+
+
   end
 
 

@@ -4,3 +4,6 @@ v0.0.9
 
 v0.0.10
 - Adds Journey::Resource.count
+
+v0.0.11
+- Adds opt-out for embeds via finder opts e.g. `Klass.all(embed: false)`

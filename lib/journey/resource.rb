@@ -4,9 +4,13 @@ module Journey
     def self.find(*arguments)
       scope   = arguments.slice!(0)
 
-      self.embeds ||= []
       options = arguments.slice!(0) || {}
-      options.deep_merge!(params: { embed: self.embeds })
+
+      self.embeds ||= []
+
+      unless options.has_key?(:embed) && !options.delete(:embed)
+        options.deep_merge!(params: { embed: embeds })
+      end
 
       super *([scope, options] + arguments)
     end
