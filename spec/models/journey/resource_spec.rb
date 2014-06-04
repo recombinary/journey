@@ -45,6 +45,13 @@ describe Journey::Resource do
         r.reload
         expect(r.status).to be_nil        
       end
+
+      it 'remembers enum values' do
+        r = klass.create(name: 'X', status: 'Inactive')
+        expect(r).to be_persisted
+        r = klass.find(r.id)
+        expect(r.status).to eq 'Inactive'
+      end
     end
   end
 
@@ -142,7 +149,16 @@ describe Journey::Resource do
       expect(job.reported_fault).to eq fault
     end
 
+    it 'updates an embedded association id correctly' do
+      asset = Asset.create name: 'asset'
+      job = Job.create name: 'job', asset_id: asset.id
+      job = Job.find(job.id)
 
+      new_asset = Asset.create name: 'asset'
+      job.update_attributes(asset_id: new_asset.id)
+
+      expect(Job.find(job.id).asset_id).to eq new_asset.id
+    end
   end
 
 
