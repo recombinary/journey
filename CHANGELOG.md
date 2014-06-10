@@ -1,3 +1,6 @@
+v0.0.14
+- some sugar around enum_sets
+
 v0.0.13
 - Adds enum_set
 

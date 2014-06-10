@@ -86,9 +86,29 @@ describe Journey::Resource do
 
       it 'remembers enum values' do
         r = klass.create(name: 'X', asset_type: ['ATM', 'ABM'])
-        expect(r).to be_persisted
         r = klass.find(r.id)
         expect(r.asset_type).to eq ['ATM', 'ABM']
+      end
+
+      it 'defaults to empty array' do
+        r = klass.create(name: 'X', asset_type: nil)
+        r = klass.find(r.id)
+        expect(r.asset_type).to eq []
+      end
+
+      it 'safely adds members' do
+        r = klass.create(name: 'X', asset_type: nil)
+        r = klass.find(r.id)
+        r.add_asset_type 'ATM'
+        expect(r.asset_type).to eq ['ATM'] 
+        r.add_asset_type 'ABM'
+        expect(r.asset_type).to eq ['ATM', 'ABM'] 
+      end
+
+      it 'raises an error when trying to add unrecognized values' do
+        r = klass.create(name: 'X', asset_type: nil)
+        r = klass.find(r.id)
+        expect{ r.add_asset_type 'AXM' }.to raise_error
       end
 
     end
