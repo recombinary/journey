@@ -21,6 +21,7 @@ end
 require 'journey/resource/api'
 require 'journey/resource/attribute_loading'
 require 'journey/resource/enums'
+require 'journey/resource/enum_sets'
 require 'journey/resource/queries'
 require 'journey/resource/search'
 require 'journey/resource/embed'
@@ -30,6 +31,7 @@ class Journey::Resource
   include API
   include Queries
   include Enums
+  include EnumSets
   include AttributeLoading
   include Search
   include Embed

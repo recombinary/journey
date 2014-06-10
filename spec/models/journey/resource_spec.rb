@@ -55,6 +55,45 @@ describe Journey::Resource do
     end
   end
 
+
+  describe '::EnumSets' do
+    let(:klass) do 
+      Class.new(Journey::Resource) do
+        self.element_name = 'fault'
+      end
+    end
+
+    describe '.enum_set' do
+      let(:asset_types) { %w[ABM ATM] }
+
+      before do
+        klass.enum_set :asset_type, asset_types
+      end
+
+      it 'stores the collection' do
+        expect(klass::ASSET_TYPES).to eq(asset_types)
+        expect(klass.new.asset_type_values).to eq(asset_types)
+      end
+      
+      it 'gets and sets enumerated attributes' do
+        r = klass.create(name: 'X')
+        expect(r).to be_persisted
+        r.asset_type = ['ATM']
+        r.save
+        r = klass.find(r.id)
+        expect(r.asset_type).to eq(['ATM'])
+      end
+
+      it 'remembers enum values' do
+        r = klass.create(name: 'X', asset_type: ['ATM', 'ABM'])
+        expect(r).to be_persisted
+        r = klass.find(r.id)
+        expect(r.asset_type).to eq ['ATM', 'ABM']
+      end
+
+    end
+  end
+
   describe '::Queries' do
     describe '.where' do
 
@@ -181,4 +220,5 @@ describe Journey::Resource do
       expect(count).to eq(0)
     end
   end
+
 end
