@@ -12,16 +12,29 @@ module Journey::Resource::EnumSets
       end
 
       define_method attr do
-        value = attributes[attr.to_s].presence
-        value.presence || []
+        arr = attributes[attr.to_s].presence || []
+        arr.map do |member|
+          if member.is_a?(Fixnum)
+            self.class.const_get(collection_const_name)[member]
+          else
+            member
+          end
+        end
       end
 
       define_method "add_#{attr}" do |value|
-        new_value = value.presence
-        if send("#{attr}_values").include? new_value
-          (attributes[attr.to_s] ||= []) << new_value
+        attr_values = send("#{attr}_values")
+
+        value_index = if value.is_a?(Fixnum)
+          value
         else
-          raise "Invalid enum '#{new_value}' for '#{attr}'"
+          attr_values.index(value)
+        end
+
+        if (0..attr_values.size-1).include? value_index
+          (attributes[attr.to_s] ||= []) << value_index
+        else
+          raise "Invalid enum '#{value}' for '#{attr}'"
         end
       end
     end

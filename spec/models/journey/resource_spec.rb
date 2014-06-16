@@ -96,6 +96,11 @@ describe Journey::Resource do
         expect(r.asset_type).to eq []
       end
 
+      it 'converts integer indices to corresponding keys' do
+        r = klass.create(name: 'X', asset_type: [0])
+        expect(r.asset_type).to eq [klass::ASSET_TYPES.first]
+      end
+
       it 'safely adds members' do
         r = klass.create(name: 'X', asset_type: nil)
         r = klass.find(r.id)

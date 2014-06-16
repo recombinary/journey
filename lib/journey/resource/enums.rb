@@ -14,7 +14,7 @@ module Journey::Resource::Enums
       instance_eval do
         attr_accessor :"#{attr}_index"
       end
-      
+
       define_method attr do
         value = attributes[attr.to_s].presence
         if value.is_a?(Fixnum)
@@ -23,7 +23,7 @@ module Journey::Resource::Enums
           value
         end
       end
-      
+
       define_method "#{attr}=" do |value|
         attributes[attr.to_s] = value.presence
       end

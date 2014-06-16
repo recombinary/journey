@@ -1,3 +1,6 @@
+v0.0.15
+- added compatibility around enum_sets from Journey (using indices rather than text values)
+
 v0.0.14
 - some sugar around enum_sets
 
