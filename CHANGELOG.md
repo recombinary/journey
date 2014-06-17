@@ -1,3 +1,6 @@
+v0.0.16
+- added attachment path helpers
+
 v0.0.15
 - added compatibility around enum_sets from Journey (using indices rather than text values)
 

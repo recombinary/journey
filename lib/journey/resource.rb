@@ -19,23 +19,25 @@ module Journey
 end
 
 require 'journey/resource/api'
+require 'journey/resource/attachments'
 require 'journey/resource/attribute_loading'
+require 'journey/resource/count'
+require 'journey/resource/embed'
 require 'journey/resource/enums'
 require 'journey/resource/enum_sets'
 require 'journey/resource/queries'
 require 'journey/resource/search'
-require 'journey/resource/embed'
-require 'journey/resource/count'
 
 class Journey::Resource
   include API
-  include Queries
+  include Attachments
+  include AttributeLoading
+  include Count
+  include Embed
   include Enums
   include EnumSets
-  include AttributeLoading
+  include Queries
   include Search
-  include Embed
-  include Count
 end
 
 
