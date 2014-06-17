@@ -12,6 +12,7 @@ module Journey::Resource::Enums
       end
 
       instance_eval do
+        # TODO deprecated?
         attr_accessor :"#{attr}_index"
       end
 

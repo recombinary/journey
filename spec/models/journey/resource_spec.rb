@@ -52,6 +52,7 @@ describe Journey::Resource do
         r = klass.find(r.id)
         expect(r.status).to eq 'Inactive'
       end
+
     end
   end
 
