@@ -1,3 +1,6 @@
+v0.0.17
+- implements Oplog
+
 v0.0.16
 - added attachment path helpers
 
