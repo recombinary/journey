@@ -80,15 +80,16 @@ describe Journey::Resource do
         r = klass.create(name: 'X')
         expect(r).to be_persisted
         r.asset_type = ['ATM']
-        r.save
+        expect(r.save).to be true
+
         r = klass.find(r.id)
-        expect(r.asset_type).to eq(['ATM'])
+        expect(r.asset_type).to eq ['ATM']
       end
 
-      it 'remembers enum values' do
-        r = klass.create(name: 'X', asset_type: ['ATM', 'ABM'])
+      it 'remembers enum_set values' do
+        r = klass.create(name: 'X', asset_type: ['ABM', 'ATM'])
         r = klass.find(r.id)
-        expect(r.asset_type).to eq ['ATM', 'ABM']
+        expect(r.asset_type).to eq ['ABM', 'ATM']
       end
 
       it 'defaults to empty array' do

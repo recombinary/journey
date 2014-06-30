@@ -5,8 +5,11 @@ module Journey::Resource::EnumSets
 
   included do
     def self.enum_set(attr, collection=[])
+      (@enum_sets ||= []) << attr
+
       collection_const_name = attr.to_s.pluralize.upcase.to_sym
-      const_set collection_const_name, collection.freeze      
+      const_set collection_const_name, collection.freeze
+
       define_method "#{attr}_values" do
         self.class.const_get(collection_const_name)
       end
@@ -22,6 +25,16 @@ module Journey::Resource::EnumSets
         end
       end
 
+      define_method "#{attr}=" do |value|
+        attributes[attr.to_s] = value.map do |member|
+          if member.is_a?(Fixnum)
+            member
+          else
+            self.class.const_get(collection_const_name).index(member)
+          end
+        end 
+      end
+
       define_method "add_#{attr}" do |value|
         attr_values = send("#{attr}_values")
 
@@ -34,7 +47,7 @@ module Journey::Resource::EnumSets
         if (0..attr_values.size-1).include? value_index
           (attributes[attr.to_s] ||= []) << value_index
         else
-          raise "Invalid enum '#{value}' for '#{attr}'"
+          raise "Invalid enum_set value: '#{value}' for '#{attr}'"
         end
       end
     end
