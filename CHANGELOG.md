@@ -1,3 +1,6 @@
+v0.0.18
+- forces gzip compression (gargantuan performance boost on embedded queries)
+
 v0.0.17
 - implements Oplog
 

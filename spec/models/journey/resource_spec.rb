@@ -7,6 +7,12 @@ describe Journey::Resource do
     end
   end
 
+  context 'gzip performance patch' do
+    it 'automatically enables gzip' do
+      expect(klass.headers['accept-encoding']).to eq 'gzip'
+    end
+  end
+
   describe '::Enums' do
     describe '.enum' do
       let(:statuses) { %w(Active Inactive) }

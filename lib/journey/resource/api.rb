@@ -6,8 +6,6 @@ module Journey::Resource::API
   included do
     self.format = :json
     self.include_root_in_json = true
-    # self.site = ENV['JOURNEY_API_ENDPOINT']
-    # self.user = ENV['JOURNEY_API_USERNAME']
-    # self.password = ENV['JOURNEY_API_KEY']
+    self.headers['accept-encoding'] = 'gzip'
   end
 end
