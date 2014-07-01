@@ -1,3 +1,6 @@
+v0.0.21
+- stomped out Rails load order bug by copying over entire Connection class (hacky)
+
 v0.0.20
 - fixes Rails load order bug with Connection (related to gzip patch)
 
