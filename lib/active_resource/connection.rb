@@ -1,4 +1,5 @@
 require 'active_resource/connection'
+ActiveResource::Connection
 
 module ActiveResource
   class Connection

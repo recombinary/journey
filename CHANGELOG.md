@@ -1,5 +1,11 @@
-v0.0.18
+v0.0.20
+- fixes Rails load order bug with Connection (related to gzip patch)
+
+v0.0.19
 - forces gzip compression (gargantuan performance boost on embedded queries)
+
+v0.0.18
+- ?? missing
 
 v0.0.17
 - implements Oplog
