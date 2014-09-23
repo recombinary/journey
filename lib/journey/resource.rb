@@ -15,6 +15,14 @@ module Journey
       super *([scope, options] + arguments)
     end
 
+    def self.where(clauses={})
+      raise ArgumentError, "expected a clauses Hash, got #{clauses.inspect}" unless clauses.is_a? Hash
+      embed = clauses.delete(:embed)
+      arguments = { params: clauses }
+      arguments.merge!(embed: embed) if embed
+      find(:all, arguments)
+    end
+
   end
 end
 
