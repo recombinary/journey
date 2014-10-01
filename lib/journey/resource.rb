@@ -8,7 +8,10 @@ module Journey
 
       self.embeds ||= []
 
-      unless options.has_key?(:embed) && !options.delete(:embed)
+      if options.has_key?(:embed)
+        embed_option = options.delete(:embed)
+        options.deep_merge!(params: { embed: embed_option }) if embed_option
+      else
         options.deep_merge!(params: { embed: embeds })
       end
 
@@ -17,9 +20,14 @@ module Journey
 
     def self.where(clauses={})
       raise ArgumentError, "expected a clauses Hash, got #{clauses.inspect}" unless clauses.is_a? Hash
-      embed = clauses.delete(:embed)
-      arguments = { params: clauses }
-      arguments.merge!(embed: embed) if clauses.has_key?(:embed)
+
+      arguments = if clauses.has_key?(:embed)
+        embed = clauses.delete(:embed)
+        { params: clauses, embed: embed }        
+      else
+        { params: clauses }
+      end
+
       find(:all, arguments)
     end
 

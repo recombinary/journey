@@ -206,13 +206,30 @@ describe Journey::Resource do
       expect(job.reported_fault).to eq fault
     end
 
-    it 'skips embedded belongs_to associations when opted for' do
+    it 'skips embedded belongs_to associations on Class.find when opted for' do
       asset = Asset.create name: 'asset'
       fault = Fault.create name: 'fault'
 
       job = Job.create name: 'job', asset_id: asset.id, reported_fault_id: fault.id
       id = job.id
       job = Job.find(id, embed: false)
+
+      expect(job.attributes['asset']).to be_nil
+      expect(job.asset).to eq asset
+
+      expect(job.attributes['reported_fault']).to be_nil
+      expect(job.reported_fault).to eq fault
+    end
+
+    it 'skips embedded belongs_to association on Class.where when opted for' do
+      asset = Asset.create name: 'asset'
+      fault = Fault.create name: 'fault'
+
+      job_resolution_comments = SecureRandom.uuid
+      job = Job.create name: 'job', resolution_comments: job_resolution_comments, asset_id: asset.id, reported_fault_id: fault.id
+
+      job = Job.where(query: { resolution_comments: job_resolution_comments }, embed: false).first
+      expect(job).to be_a Job
 
       expect(job.attributes['asset']).to be_nil
       expect(job.asset).to eq asset
