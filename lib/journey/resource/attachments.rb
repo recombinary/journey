@@ -14,10 +14,12 @@ module Journey::Resource::Attachments
       end
 
       define_method "#{attr}_url" do |size='original'|
+        uri = URI.parse(Journey.configuration.api_site)
         if path = send("#{attr}_path", size)
-          URI.parse(Journey.configuration.api_site).tap do |uri|
-            uri.path = path
-          end.to_s
+          path, query = *path.split("?")
+          uri.path = path
+          uri.query = query
+          return uri.to_s
         end
       end
     end
