@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Journey::Resource::Attachments do
 
-  let(:klass) do 
+  let(:klass) do
     Class.new(Journey::Resource) do
       self.element_name = 'job'
       attachment :important_file
@@ -15,7 +15,8 @@ describe Journey::Resource::Attachments do
       klass.new(display_attachments: OpenStruct.new({
         'important_file' => OpenStruct.new({
           'original' => 'O.jpg',
-          'thumbnail' => 'T.jpg'
+          'thumbnail' => 'T.jpg',
+          'with_sha' => '/S?sha=asdasd'
         })
       }))
     end
@@ -43,6 +44,10 @@ describe Journey::Resource::Attachments do
     describe '##{attachment}_url' do
       it 'is blank when attachment doesnt exist' do
         expect(instance.boring_file_url).to be_blank
+      end
+
+      it 'generates a valid url with sha (update due to journey attachment security updates)' do
+        expect(instance.important_file_url('with_sha')).to include(instance.display_attachments.important_file.with_sha)
       end
     end
 
