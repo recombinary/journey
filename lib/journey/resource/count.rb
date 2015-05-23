@@ -4,7 +4,7 @@ module Journey::Resource::Count
   extend ActiveSupport::Concern
 
   included do
-    def self.count(constraints)
+    def self.count(constraints={})
       get(:count, constraints)["count"]
     end
   end
