@@ -18,11 +18,12 @@ module Journey::Resource::Enums
 
       define_method attr do
         value = attributes[attr.to_s].presence
-        if value.is_a?(Fixnum)
+        real_value = if value.is_a?(Fixnum)
           send("#{attr}_values")[value]
         else
           value
         end
+        real_value.inquiry
       end
 
       define_method "#{attr}=" do |value|
