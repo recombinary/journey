@@ -1,6 +1,7 @@
 require 'pry'
 require 'journey'
 
+Journey.logger = Logger.new('/dev/null')
 
 require 'dotenv'
 Dotenv.load
