@@ -21,7 +21,7 @@ module Journey::Resource::WhereMultiple
         end.map(&:to_a).sum
 
       else
-        where(clauses)
+        where(clauses.merge(query: query))
       end
     end
   end

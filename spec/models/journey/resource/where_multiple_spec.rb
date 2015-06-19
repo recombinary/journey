@@ -15,7 +15,7 @@ describe Journey::Resource::WhereMultiple do
 
   before { klass.destroy_all }
 
-  let(:candidates) { matchables + unmatchables }
+  let!(:candidates) { matchables + unmatchables }
 
   context "when query doesn't contain any key having an array-like value" do
     let(:matchables) do
@@ -25,7 +25,7 @@ describe Journey::Resource::WhereMultiple do
       [ klass.create(number: 'X') ]
     end
 
-    let(:collection) { klass.where_multiple(query: { number: 'A' }) }
+    let!(:collection) { klass.where_multiple(query: { number: 'A' }) }
 
     it 'returns correct results' do
       expect(matchables).to be_all do |matchable|
@@ -37,6 +37,35 @@ describe Journey::Resource::WhereMultiple do
     end
 
     pending 'performs 1 query'
+  end
+
+  context "when query contains a key with the value of an array containing a single item" do
+
+    let(:matchables) do
+      [
+        klass.create(number: 'A')
+      ]
+    end
+    let(:unmatchables) do
+      [
+        klass.create(number: 'B')
+      ]
+    end
+
+    let!(:collection) { klass.where_multiple(query: { number: ['A'] }, sort: { number: :desc }) }
+
+    it 'returns correct results' do
+      collection
+      expect(matchables).to be_all do |matchable|
+        collection.include?(matchable)
+      end
+      expect(unmatchables).not_to be_any do |unmatchable|
+        collection.include?(unmatchable)
+      end
+    end
+
+    pending 'performs n queries'
+
   end
 
   context "when query contains one key having an array-like value" do
@@ -54,7 +83,7 @@ describe Journey::Resource::WhereMultiple do
       ]
     end
 
-    let(:collection) { klass.where_multiple(query: { number: ['A', 'B'] }) }
+    let!(:collection) { klass.where_multiple(query: { number: ['A', 'B'] }) }
 
     it 'returns correct results' do
       expect(matchables).to be_all do |matchable|
@@ -88,7 +117,7 @@ describe Journey::Resource::WhereMultiple do
       ]
     end
 
-    let(:collection) { klass.where_multiple(query: { number: ['A', 'B'], flash_number: ['1', '2'] }) }
+    let!(:collection) { klass.where_multiple(query: { number: ['A', 'B'], flash_number: ['1', '2'] }) }
 
     it 'returns correct results' do
       expect(matchables).to be_all do |matchable|
