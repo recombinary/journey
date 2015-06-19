@@ -16,8 +16,14 @@ describe Journey::Resource::WhereMultiple do
   before { klass.destroy_all }
 
   let!(:candidates) { matchables + unmatchables }
+  let(:collection) { klass.where_multiple(clauses) }
+  let(:count) { klass.count_multiple(clauses) }
 
   context "when query doesn't contain any key having an array-like value" do
+    let(:clauses) do
+      { query: { number: 'A' } }
+    end
+
     let(:matchables) do
       [ klass.create(number: 'A') ]
     end
@@ -25,7 +31,6 @@ describe Journey::Resource::WhereMultiple do
       [ klass.create(number: 'X') ]
     end
 
-    let!(:collection) { klass.where_multiple(query: { number: 'A' }) }
 
     it 'returns correct results' do
       expect(matchables).to be_all do |matchable|
@@ -36,11 +41,17 @@ describe Journey::Resource::WhereMultiple do
       end
     end
 
+    it 'counts correctly' do
+      expect(count).to eq 1
+    end
+
     pending 'performs 1 query'
   end
 
   context "when query contains a key with the value of an array containing a single item" do
-
+    let(:clauses) do
+      { query: { number: ['A'] }, sort: { number: :desc } }
+    end
     let(:matchables) do
       [
         klass.create(number: 'A')
@@ -52,10 +63,7 @@ describe Journey::Resource::WhereMultiple do
       ]
     end
 
-    let!(:collection) { klass.where_multiple(query: { number: ['A'] }, sort: { number: :desc }) }
-
     it 'returns correct results' do
-      collection
       expect(matchables).to be_all do |matchable|
         collection.include?(matchable)
       end
@@ -64,12 +72,18 @@ describe Journey::Resource::WhereMultiple do
       end
     end
 
+    it 'counts correctly' do
+      expect(count).to eq 1
+    end
+
     pending 'performs n queries'
 
   end
 
   context "when query contains one key having an array-like value" do
-
+    let(:clauses) do
+      { query: { number: ['A', 'B'] } }
+    end
     let(:matchables) do
       [
         klass.create(number: 'A'),
@@ -83,8 +97,6 @@ describe Journey::Resource::WhereMultiple do
       ]
     end
 
-    let!(:collection) { klass.where_multiple(query: { number: ['A', 'B'] }) }
-
     it 'returns correct results' do
       expect(matchables).to be_all do |matchable|
         collection.include?(matchable)
@@ -94,11 +106,18 @@ describe Journey::Resource::WhereMultiple do
       end
     end
 
+    it 'counts correctly' do
+      expect(count).to eq 2
+    end
+
     pending 'performs n queries'
   end
 
 
   context "when query contains two keys having array-like values" do
+    let(:clauses) do
+      { query: { number: ['A', 'B'], flash_number: ['1', '2'] } }
+    end
     let(:matchables) do
       [
         klass.create(number: 'A', flash_number: '1'),
@@ -117,8 +136,6 @@ describe Journey::Resource::WhereMultiple do
       ]
     end
 
-    let!(:collection) { klass.where_multiple(query: { number: ['A', 'B'], flash_number: ['1', '2'] }) }
-
     it 'returns correct results' do
       expect(matchables).to be_all do |matchable|
         collection.include?(matchable)
@@ -126,6 +143,10 @@ describe Journey::Resource::WhereMultiple do
       expect(unmatchables).not_to be_any do |unmatchable|
         collection.include?(unmatchable)
       end
+    end
+
+    it 'counts correctly' do
+      expect(count).to eq 4
     end
 
     pending 'performs m * n queries'
