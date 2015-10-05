@@ -1,3 +1,6 @@
+v.0.1.2
+- Added `batch_where` to account for massive queries timing out (e.g. 10k objects)
+
 v0.0.21
 - stomped out Rails load order bug by copying over entire Connection class (hacky)
 

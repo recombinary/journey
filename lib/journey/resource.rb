@@ -44,6 +44,7 @@ require 'journey/resource/enum_sets'
 require 'journey/resource/queries'
 require 'journey/resource/search'
 require 'journey/resource/where_multiple'
+require 'journey/resource/batch_where'
 
 class Journey::Resource
   include API
@@ -56,6 +57,7 @@ class Journey::Resource
   include Queries
   include Search
   include WhereMultiple
+  include BatchWhere
 end
 
 

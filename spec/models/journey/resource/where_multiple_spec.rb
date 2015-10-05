@@ -5,15 +5,10 @@ describe Journey::Resource::WhereMultiple do
   let(:klass) do
     Class.new(Journey::Resource) do
       self.element_name = 'job'
-
-      def self.destroy_all
-        all.each(&:destroy)
-      end
     end
   end
 
-
-  before { klass.destroy_all }
+  before { klass.all.each(&:destroy) }
 
   let!(:candidates) { matchables + unmatchables }
   let(:collection) { klass.where_multiple(clauses) }
