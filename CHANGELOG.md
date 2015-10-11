@@ -1,3 +1,6 @@
+v0.1.5
+- Fixed a bug where in `where_multiple` and `count_multiple` that performed destructive options on the argument hash (methods now use `dup`)
+
 v0.1.4
 - Fixed a bug where `batch_where` wasnt using `count_multiple` (therefore breaking for nested queries)
 

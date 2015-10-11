@@ -6,7 +6,6 @@ module Journey::Resource::BatchWhere
   included do
 
     def self.batch_where(clauses, batch_size=100)
-
       total_count = count_multiple(clauses)
       query_count = (total_count / batch_size.to_f).ceil.to_i
 

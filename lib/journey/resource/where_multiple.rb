@@ -4,7 +4,8 @@ module Journey::Resource::WhereMultiple
   extend ActiveSupport::Concern
 
   included do
-    def self.where_multiple(clauses)
+    def self.where_multiple(c)
+      clauses = c.dup
 
       query = clauses.delete(:query)
       query_keys_with_array_values = query.map do |key, value|
@@ -25,8 +26,9 @@ module Journey::Resource::WhereMultiple
       end
     end
 
-    def self.count_multiple(clauses)
+    def self.count_multiple(c)
       # TODO refactor me to re-use all the same recursive query logic in `where_multiple`
+      clauses = c.dup
 
       query = clauses.delete(:query)
       query_keys_with_array_values = query.map do |key, value|
