@@ -1,4 +1,7 @@
-v.0.1.3
+v0.1.4
+- Fixed a bug where `batch_where` wasnt using `count_multiple` (therefore breaking for nested queries)
+
+v0.1.3
 - Added `batch_where` to account for massive queries timing out (e.g. 10k objects)
 
 v0.0.21
