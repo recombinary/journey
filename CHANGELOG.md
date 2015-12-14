@@ -1,3 +1,6 @@
+v0.1.8
+- Fixes another bug with associations vanishing.
+
 v0.1.7
 - Actually fixed denormalization issues. Fixed a nasty bug where an associated resource 404 would cause an infinite loop of GET requests.
 

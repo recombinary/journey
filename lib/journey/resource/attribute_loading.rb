@@ -13,11 +13,12 @@ module Journey::Resource::AttributeLoading
 
       super(attributes, remove_root, persisted).tap do
 
-        # set the cached value of any updated associations (e.g. parent_id)
+        # set the cached value of any updated associations (e.g. parent for parent_id)
         # to nil so that they can be re-fetched
         attributes.keys.map(&:to_s).select{ |key| key =~ /_id$/ }.each do |association_key|
           association = association_key.gsub /_id$/, ''
-          instance_variable_set("@#{association}", nil)
+          ivar_name = "@#{association}"
+          remove_instance_variable(ivar_name) if instance_variable_defined?(ivar_name)
         end
 
         # allow enum_sets to be loaded by key (rather than index)
