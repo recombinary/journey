@@ -1,3 +1,9 @@
+v0.1.7
+- Actually fixed denormalization issues. Fixed a nasty bug where an associated resource 404 would cause an infinite loop of GET requests.
+
+v0.1.6
+- Attempted to fix denormalization issues (based on embedded objects and association ids) 
+
 v0.1.5
 - Fixed a bug where in `where_multiple` and `count_multiple` that performed destructive options on the argument hash (methods now use `dup`)
 

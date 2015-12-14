@@ -126,8 +126,8 @@ module ActiveResource::Associations
     end
 
     define_method(method_name) do
-      if ivar = instance_variable_get(ivar_name)
-        ivar
+      if instance_variable_defined?(ivar_name)
+        instance_variable_get(ivar_name)
       elsif attributes.include?(method_name)
         attributes[method_name]
       elsif association_id = send(finder_key)
